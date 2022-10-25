@@ -12,7 +12,7 @@ namespace Example_PangYa
         static Funcoes f = new Funcoes();
         static Mem m = new Mem();
         static double tee1Mem, tee2Mem, tee3Mem, pin1Mem, pin2Mem, pin3Mem, eixoxMem, eixoyMem, cosBolaMem, senoBolaMem, spinMem, curvaMem, gridPersonagemMem, cosAnguloMem, senoAnguloMem;
-        static double accuracyMem, spinMax, curvaMax, linhaXMem, linhaZMem, assistXMem, assistZMem, radiusAssistMem;
+        static double accuracyPixelMem, spinMax, curvaMax, linhaXMem, linhaZMem, assistXMem, assistZMem, radiusAssistMem;
 
         static int mapa = 0;
         static string ventoMem;
@@ -63,7 +63,7 @@ namespace Example_PangYa
             mapa = m.ReadByte("ProjectG.exe+A47E28");
             if (Aberto == true && mapa != 0)
             {
-                accuracyMem = m.ReadFloat("ProjectG.exe+A79014", "", false);
+                accuracyPixelMem = m.ReadFloat("ProjectG.exe+A79014", "", false);
                 spinMax = m.ReadFloat("ProjectG.exe+00B006E8,0x1C,0xC,0x28,0x2C,0x30,0x0,0x24", "", false);
                 curvaMax = m.ReadFloat("ProjectG.exe+00B006E8,0x1C,0xC,0x28,0x2C,0x30,0x0,0x20", "", false);
                 tee1Mem = m.ReadFloat("ProjectG.exe+A47E30", "", false);
@@ -110,7 +110,7 @@ namespace Example_PangYa
                 Console.WriteLine(" _______________________\t");
                 Console.WriteLine("| Forca: \t" + " \t|");
                 Console.WriteLine("| Controle: \t" + " \t|");
-                Console.WriteLine("| Precisao: \t" + accuracyMem + "\t|");
+                Console.WriteLine("| Precisao: \t" + " \t|");
                 Console.WriteLine("| Spin: \t" + spinMax + "\t|");
                 Console.WriteLine("| Curva: \t" + curvaMax + "\t|");
                 Console.WriteLine("|_______________________|");
