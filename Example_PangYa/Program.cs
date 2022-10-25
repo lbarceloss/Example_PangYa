@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 /*
- * BIBLIOTECA PUBLICA PARA AS LEITURA DE MEMORIA: https://github.com/erfg12/memory.dll
+ * Referencias: https://github.com/erfg12/memory.dll
 */
 
 namespace Example_PangYa
@@ -147,10 +147,12 @@ namespace Example_PangYa
             Memorias();
             if (mapa != 0)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Posição do Hole X: " + Math.Round(pin1Mem, 4));
                 Console.WriteLine("Posição do Hole Y: " + Math.Round(pin2Mem, 4));
                 Console.WriteLine("Posição do Hole Z: " + Math.Round(pin3Mem, 4));
                 Console.WriteLine("");
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -159,10 +161,12 @@ namespace Example_PangYa
             Memorias();
             if (mapa != 0)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Posição da Bola X: " + Math.Round(tee1Mem, 4));
                 Console.WriteLine("Posição da Bola Y: " + Math.Round(tee2Mem, 4));
                 Console.WriteLine("Posição da Bola Z: " + Math.Round(tee3Mem, 4));
                 Console.WriteLine("");
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -171,10 +175,12 @@ namespace Example_PangYa
             Memorias();
             if (mapa != 0)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Deslocamento eixo [X]: \t" + Math.Round(assistXMem, 2));
                 Console.WriteLine("Deslocamento eixo [Z]: \t" + Math.Round(assistZMem, 2));
                 Console.WriteLine("Radius Assist: \t\t" + Math.Round(radiusAssistMem, 2));
                 Console.WriteLine("");
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
