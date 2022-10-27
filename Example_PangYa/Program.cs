@@ -15,7 +15,8 @@ namespace Example_PangYa
         static Funcoes f = new Funcoes();
         static Mem m = new Mem();
         static double tee1Mem, tee2Mem, tee3Mem, pin1Mem, pin2Mem, pin3Mem, eixoxMem, eixoyMem, cosBolaMem, senoBolaMem, spinMem, curvaMem, gridPersonagemMem, cosAnguloMem, senoAnguloMem;
-        static double accuracyPixelMem, spinMax, curvaMax, linhaXMem, linhaZMem, assistXMem, assistZMem, radiusAssistMem, radianseixoMem;
+        static double accuracyPixelMem, spinMax, curvaMax, linhaXMem, linhaZMem, assistXMem, assistZMem, radiusAssistMem, radianseixoMem, assistDiametroAtual, linhaAssistTotal, linhaAssistPixel;
+        static double assistEixoX, assistEixoY, assistEixoZ;
 
         static int mapa = 0;
         static string ventoMem;
@@ -96,6 +97,12 @@ namespace Example_PangYa
                 assistXMem = m.ReadFloat("ProjectG.exe+00B006E8,0x1C,0x34,0x24,0x28,0x0,0x0,0x70");
                 assistZMem = m.ReadFloat("ProjectG.exe+00B006E8,0x1C,0x34,0x24,0x28,0x0,0x0,0x78");
                 radiusAssistMem = m.ReadFloat("ProjectG.exe+00B006E8,0x1C,0x34,0x24,0x28,0x0,0x0,0x7C");
+                assistDiametroAtual = m.ReadFloat("ProjectG.exe+00B006E8,0x1C,0x34,0x24,0x28,0x0,0x0,0xA4");
+                linhaAssistTotal = m.ReadFloat("ProjectG.exe+00B006E8,0x1C,0x34,0x24,0x28,0x0,0x0,0x90");
+                linhaAssistPixel = m.ReadFloat("ProjectG.exe+00B006E8,0x1C,0x34,0x24,0x28,0x0,0x0,0x9C");
+                assistEixoX = m.ReadFloat("ProjectG.exe+00B006E8,0x1C,0x34,0x24,0x28,0x0,0x0,0x21C");
+                assistEixoY = m.ReadFloat("ProjectG.exe+00B006E8,0x1C,0x34,0x24,0x28,0x0,0x0,0x220");
+                assistEixoZ = m.ReadFloat("ProjectG.exe+00B006E8,0x1C,0x34,0x24,0x28,0x0,0x0,0x224");
             }
             else
             {
@@ -166,7 +173,7 @@ namespace Example_PangYa
             Memorias();
             if (mapa != 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("Posição da Bola X: " + Math.Round(tee1Mem, 4));
                 Console.WriteLine("Posição da Bola Y: " + Math.Round(tee2Mem, 4));
                 Console.WriteLine("Posição da Bola Z: " + Math.Round(tee3Mem, 4));
@@ -185,10 +192,16 @@ namespace Example_PangYa
             Memorias();
             if (mapa != 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Linha eixo [X]: \t" + Math.Round(assistEixoX, 2));
+                Console.WriteLine("Linha eixo [Y]: \t" + Math.Round(assistEixoY, 2));
+                Console.WriteLine("Linha eixo [Z]: \t" + Math.Round(assistEixoZ, 2));
                 Console.WriteLine("Deslocamento eixo [X]: \t" + Math.Round(assistXMem, 2));
                 Console.WriteLine("Deslocamento eixo [Z]: \t" + Math.Round(assistZMem, 2));
+                Console.WriteLine("Diametro Assist: \t" + Math.Round(assistDiametroAtual, 2));
                 Console.WriteLine("Radius Assist: \t\t" + Math.Round(radiusAssistMem, 2));
+                Console.WriteLine("Linha Total: \t\t" + Math.Round(linhaAssistTotal, 2) + "%");
+                Console.WriteLine("Linha Pixel: \t\t" + Math.Round(linhaAssistPixel, 2) + "px");
                 Console.WriteLine("");
                 Console.ForegroundColor = ConsoleColor.White;
             }
