@@ -90,5 +90,12 @@ namespace Example_PangYa
             else
                 return Convert.ToString(AutoPower(linhaXMem, tee1Mem, linhaZMem, tee3Mem)) + "y/" + "PT";
         }
+
+        public double RadiansParaDegrees(double radians)
+        {
+            double degrees = (180 / Math.PI) * radians;
+            return (degrees);
+        }
+
     }
 }

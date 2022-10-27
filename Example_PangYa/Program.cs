@@ -1,6 +1,9 @@
 ﻿using Memory;
+using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Threading;
+
 /*
  * Referencias: https://github.com/erfg12/memory.dll
 */
@@ -12,7 +15,7 @@ namespace Example_PangYa
         static Funcoes f = new Funcoes();
         static Mem m = new Mem();
         static double tee1Mem, tee2Mem, tee3Mem, pin1Mem, pin2Mem, pin3Mem, eixoxMem, eixoyMem, cosBolaMem, senoBolaMem, spinMem, curvaMem, gridPersonagemMem, cosAnguloMem, senoAnguloMem;
-        static double accuracyPixelMem, spinMax, curvaMax, linhaXMem, linhaZMem, assistXMem, assistZMem, radiusAssistMem;
+        static double accuracyPixelMem, spinMax, curvaMax, linhaXMem, linhaZMem, assistXMem, assistZMem, radiusAssistMem, radianseixoMem;
 
         static int mapa = 0;
         static string ventoMem;
@@ -22,6 +25,7 @@ namespace Example_PangYa
 
         static void Main(string[] args)
         {
+            Console.WriteLine(getKey());
             int opcao = 0;
             Aberto = m.OpenProcess("ProjectG");
             do
@@ -78,6 +82,7 @@ namespace Example_PangYa
                 senoAnguloMem = m.ReadFloat("ProjectG.exe+00A73E60,0x34,0x18,0x10,0x30,0x0,0x234,0xB4", "", false);
                 eixoxMem = m.ReadFloat("ProjectG.exe+00A73E60,0x34,0x18,0x10,0x30,0x0,0x21C,0x1C", "", false);
                 eixoyMem = m.ReadFloat("ProjectG.exe+00B006E8,0x8,0x10,0x30,0x0,0x21C,0x24", "", false);
+                radianseixoMem = m.ReadFloat("ProjectG.exe+00A73E60,0x34,0x18,0x10,0x30,0x0,0x21C,0x74", "", false);
                 cosBolaMem = m.ReadFloat("ProjectG.exe+B024A0", "", false);
                 senoBolaMem = m.ReadFloat("ProjectG.exe+B024A8", "", false);
                 ventoMem = m.ReadString("ProjectG.exe+00B006E8,0x8,0x10,0x30,0x0,0x220,0x28,0x0", "");
@@ -165,6 +170,11 @@ namespace Example_PangYa
                 Console.WriteLine("Posição da Bola X: " + Math.Round(tee1Mem, 4));
                 Console.WriteLine("Posição da Bola Y: " + Math.Round(tee2Mem, 4));
                 Console.WriteLine("Posição da Bola Z: " + Math.Round(tee3Mem, 4));
+                Console.WriteLine("Eixo X:\t\t   " + Math.Round(eixoxMem, 4));
+                Console.WriteLine("Eixo Y:\t\t   " + Math.Round(eixoxMem, 4));
+                Console.WriteLine("Radianos:\t   " + Math.Round(radianseixoMem, 4));
+                Console.WriteLine("Sen: \t\t   " + Math.Round(senoBolaMem, 4));
+                Console.WriteLine("Cos: \t\t   " + Math.Round(cosBolaMem, 4));
                 Console.WriteLine("");
                 Console.ForegroundColor = ConsoleColor.White;
             }
@@ -184,5 +194,30 @@ namespace Example_PangYa
             }
         }
 
+        //KEY WINDOWS
+        private static string getKey()
+        {
+            string text = "SOFTWARE\\Microsoft\\Cryptography";
+            string text2 = "MachineGuid";
+            using (RegistryKey registrykey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+            {
+                using (RegistryKey registryKey2 = registrykey.OpenSubKey(text))
+                {
+                    bool flag = registryKey2 == null;
+                    if (flag)
+                    {
+                        throw new KeyNotFoundException(String.Format("Key not found {0}", text));
+                    }
+                    object value = registryKey2?.GetValue(text2);
+                    bool flag2 = value == null;
+                    if (flag2)
+                    {
+                        throw new IndexOutOfRangeException(String.Format("Index not found: {^0}", text2));
+                    }
+                    return value.ToString();
+                    
+                }
+            }
+        }
     }
 }
