@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Windows.Input;
 
 /*
  * Referencias: https://github.com/erfg12/memory.dll
@@ -23,46 +24,156 @@ namespace Example_PangYa
         static int terrenoMem, driverMem;
         //static int estadoBarra, readyCheck;
         static bool Aberto = false;
+        static bool Rodando = true;
+        static bool Auto = false, AutoLimpar = false;
+        static int opcao = 0, contador = 0;
+        static Thread TC = new Thread(Teclado);
 
         static void Main(string[] args)
         {
-            Console.WriteLine(getKey());
-            int opcao = 0;
+            Console.WriteLine("Key win: " + getKey());
             Aberto = m.OpenProcess("ProjectG");
-            do
+            TC.SetApartmentState(ApartmentState.STA);
+            TC.Start();
+            TC.Suspend();
+            if (Aberto)
             {
-                Console.WriteLine("Escolha a opção: ");
-                Console.WriteLine("[1] - Dados Gerais.");
-                Console.WriteLine("[2] - Dados do Hole.");
-                Console.WriteLine("[3] - Dados da Bola.");
-                Console.WriteLine("[4] - Assist.");
-                Console.WriteLine("[0] - Para fechar o programa.");
-                Console.Write("Opção: ");
-                opcao = int.Parse(Console.ReadLine());
-                Console.WriteLine("");
-                switch (opcao)
+                Console.WriteLine("PangYa aberto");
+                do
                 {
-                    case 1:
-                        Gerais();
-                        break;
-                    case 2:
-                        Hole();
-                        break;
-                    case 3:
-                        Bola();
-                        break;
-                    case 4:
-                        Assist();
-                        break;
-                    default:
-                        Console.WriteLine("Opcao Invalida");
-                        break;
-                }
-            } while (opcao != 0);
-            Console.WriteLine("Encerrando Programa.");
-            Thread.Sleep(1000);
+                    Console.WriteLine("Escolha a opção: ");
+                    Console.WriteLine("[1] - Dados Gerais.");
+                    Console.WriteLine("[2] - Dados do Hole.");
+                    Console.WriteLine("[3] - Dados da Bola.");
+                    Console.WriteLine("[4] - Assist.");
+                    if (Auto == false)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("[5] - Modo Semi-Auto.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("[5] - Modo Semi-Auto.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    if (AutoLimpar == false)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("[6] - Auto limpar.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("[6] - Auto limpar.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    Console.WriteLine("[0] - Para fechar o programa.");
+                    Console.Write("Opção: ");
+                    opcao = int.Parse(Console.ReadLine());
+                    if (Auto == false)
+                    {
+                        Console.WriteLine("");
+                        switch (opcao)
+                        {
+                            case 1:
+                                Gerais();
+                                break;
+                            case 2:
+                                Hole();
+                                break;
+                            case 3:
+                                Bola();
+                                break;
+                            case 4:
+                                Assist();
+                                break;
+                            case 5:
+                                TC.Resume();
+                                Auto = true;
+                                Console.WriteLine("Modo Semi-Auto ligado.");
+                                Console.Clear();
+                                break;
+                            case 6:
+                                if (contador % 2 == 0)
+                                {
+                                    AutoLimpar = true;
+                                    contador++;
+                                }
+                                else
+                                {
+                                    AutoLimpar = false;
+                                    contador--;
+                                }
+                                Console.Clear();
+                                break;
+                            default:
+                                Console.WriteLine("Opcao Invalida");
+                                break;
+                        }
+                    }
+                } while (opcao != 0);
+                Console.WriteLine("Encerrando Programa.");
+                Rodando = false;
+                Thread.Sleep(1000);
+            }
+            else
+            {
+                Console.WriteLine("PangYa não encontrado.");
+                Thread.Sleep(1000);
+                Console.WriteLine("Tentando novamente em:");
+                Console.WriteLine("3");
+                Thread.Sleep(1000);
+                Console.WriteLine("2");
+                Thread.Sleep(1000);
+                Console.WriteLine("1");
+                Thread.Sleep(1000);
+                Console.Clear();
+                Main(args);
+            }
         }
 
+        private static void Teclado()
+        {
+            while (Rodando)
+            {
+                Thread.Sleep(50);
+                if ((Keyboard.GetKeyStates(Key.NumPad1) & KeyStates.Down) > 0 & Auto == true)
+                {
+                    Gerais();
+                }
+                else if ((Keyboard.GetKeyStates(Key.NumPad2) & KeyStates.Down) > 0 & Auto == true)
+                {
+                    Hole();
+                }
+                else if ((Keyboard.GetKeyStates(Key.NumPad3) & KeyStates.Down) > 0 & Auto == true)
+                {
+                    Bola();
+                }
+                else if ((Keyboard.GetKeyStates(Key.NumPad4) & KeyStates.Down) > 0 & Auto == true)
+                {
+                    Assist();
+                }
+                else if ((Keyboard.GetKeyStates(Key.NumPad5) & KeyStates.Down) > 0 & Auto == true)
+                {
+                    Auto = false;
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Modo Semi-Auto desligado.");
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    Console.WriteLine("Escolha a opção: ");
+                    Console.WriteLine("[1] - Dados Gerais.");
+                    Console.WriteLine("[2] - Dados do Hole.");
+                    Console.WriteLine("[3] - Dados da Bola.");
+                    Console.WriteLine("[4] - Assist.");
+                    Console.WriteLine("[0] - Para fechar o programa.");
+                    Console.Write("Opção: ");
+                    TC.Suspend();
+                }
+            }
+        }
         private static void Memorias()
         {
             mapa = m.ReadByte("ProjectG.exe+A47E28");
@@ -115,6 +226,8 @@ namespace Example_PangYa
             Memorias();
             if (mapa != 0)
             {
+                if (AutoLimpar == true)
+                    Console.Clear();
                 //Players Status
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.WriteLine(" _______________________\t");
@@ -159,6 +272,8 @@ namespace Example_PangYa
             Memorias();
             if (mapa != 0)
             {
+                if (AutoLimpar == true)
+                    Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Posição do Hole X: " + Math.Round(pin1Mem, 4));
                 Console.WriteLine("Posição do Hole Y: " + Math.Round(pin2Mem, 4));
@@ -173,6 +288,8 @@ namespace Example_PangYa
             Memorias();
             if (mapa != 0)
             {
+                if (AutoLimpar == true)
+                    Console.Clear();
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine("Posição da Bola X: " + Math.Round(tee1Mem, 4));
                 Console.WriteLine("Posição da Bola Y: " + Math.Round(tee2Mem, 4));
@@ -192,6 +309,8 @@ namespace Example_PangYa
             Memorias();
             if (mapa != 0)
             {
+                if (AutoLimpar == true)
+                    Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("Linha eixo [X]: \t" + Math.Round(assistEixoX, 2));
                 Console.WriteLine("Linha eixo [Y]: \t" + Math.Round(assistEixoY, 2));

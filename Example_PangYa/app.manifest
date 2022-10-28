@@ -25,7 +25,7 @@
     <application>
       <!-- Uma lista das versões do Windows nas quais este aplicativo foi testado e
            com as quais ele foi projetado para trabalhar. Remova a marca de comentário dos elementos apropriados
-           e o Windows selecionará automaticamente o ambiente mais compatível. -->
+           e o Windows selecionará Automaticamente o ambiente mais compatível. -->
 
       <!-- Windows Vista -->
       <!--<supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}" />-->
@@ -45,8 +45,8 @@
     </application>
   </compatibility>
 
-  <!-- Indica que o aplicativo tem reconhecimento de DPI e não será dimensionado automaticamente pelo Windows em caso de DPIs
-       mais altos. Os aplicativos do WPF (Windows Presentation Foundation) têm reconhecimento automático de DPI e não precisam
+  <!-- Indica que o aplicativo tem reconhecimento de DPI e não será dimensionado Automaticamente pelo Windows em caso de DPIs
+       mais altos. Os aplicativos do WPF (Windows Presentation Foundation) têm reconhecimento Automático de DPI e não precisam
        aceitar esta configuração. Os aplicativos do Windows Forms direcionados ao .NET Framework 4.6 que aceitam esta configuração 
        também devem ter a configuração 'EnableWindowsFormsHighDpiAutoResizing' definida como 'true' no app.config. 
        

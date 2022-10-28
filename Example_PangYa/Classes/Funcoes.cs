@@ -6,7 +6,7 @@ namespace Example_PangYa
     {
         public double quebraBola(double x, double y, double bolax, double bolay)
         {
-            double radianusSeno, radianusCos, senoInverso, radianusPosicao, posicao, resultadoautoquebra, cos;
+            double radianusSeno, radianusCos, senoInverso, radianusPosicao, posicao, resultadoAutoquebra, cos;
             radianusSeno = Math.Asin(x) * 180 / Math.PI;
             radianusCos = Math.Acos(y) * 180 / Math.PI;
             if (radianusSeno < 0.0)
@@ -21,8 +21,8 @@ namespace Example_PangYa
             radianusPosicao *= -1;
             senoInverso = Math.Sin(radianusPosicao) * -1;
             cos = Math.Cos(radianusPosicao);
-            resultadoautoquebra = Math.Round(((bolax * cos) + (bolay * senoInverso)) * -1 * (1 / 0.00875), 2);
-            return resultadoautoquebra;
+            resultadoAutoquebra = Math.Round(((bolax * cos) + (bolay * senoInverso)) * -1 * (1 / 0.00875), 2);
+            return resultadoAutoquebra;
         }
 
         public double pbTirado(double x1, double x2, double z1, double z2, double gridPersonagemMem)
