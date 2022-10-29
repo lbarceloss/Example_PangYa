@@ -33,11 +33,11 @@ namespace Example_PangYa
         {
             Console.WriteLine("Key win: " + getKey());
             Aberto = m.OpenProcess("ProjectG");
-            TC.SetApartmentState(ApartmentState.STA);
-            TC.Start();
-            TC.Suspend();
             if (Aberto)
             {
+                TC.SetApartmentState(ApartmentState.STA);
+                TC.Start();
+                TC.Suspend();
                 Console.WriteLine("PangYa aberto");
                 do
                 {
@@ -134,7 +134,6 @@ namespace Example_PangYa
                 Main(args);
             }
         }
-
         private static void Teclado()
         {
             while (Rodando)
@@ -143,25 +142,29 @@ namespace Example_PangYa
                 if ((Keyboard.GetKeyStates(Key.NumPad1) & KeyStates.Down) > 0 & Auto == true)
                 {
                     Gerais();
+                    Thread.Sleep(1000);
                 }
                 else if ((Keyboard.GetKeyStates(Key.NumPad2) & KeyStates.Down) > 0 & Auto == true)
                 {
                     Hole();
+                    Thread.Sleep(1000);
                 }
                 else if ((Keyboard.GetKeyStates(Key.NumPad3) & KeyStates.Down) > 0 & Auto == true)
                 {
                     Bola();
+                    Thread.Sleep(1000);
                 }
                 else if ((Keyboard.GetKeyStates(Key.NumPad4) & KeyStates.Down) > 0 & Auto == true)
                 {
                     Assist();
+                    Thread.Sleep(1000);
                 }
                 else if ((Keyboard.GetKeyStates(Key.NumPad5) & KeyStates.Down) > 0 & Auto == true)
                 {
                     Auto = false;
                     Console.WriteLine(" ");
                     Console.WriteLine("Modo Semi-Auto desligado.");
-                    Thread.Sleep(1000);
+                    Thread.Sleep(1200);
                     Console.Clear();
                     Console.WriteLine("Escolha a opção: ");
                     Console.WriteLine("[1] - Dados Gerais.");
@@ -266,7 +269,6 @@ namespace Example_PangYa
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
-
         private static void Hole()
         {
             Memorias();
@@ -282,7 +284,6 @@ namespace Example_PangYa
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
-
         private static void Bola()
         {
             Memorias();
@@ -303,7 +304,6 @@ namespace Example_PangYa
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
-
         private static void Assist()
         {
             Memorias();
@@ -325,7 +325,6 @@ namespace Example_PangYa
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
-
         //KEY WINDOWS
         private static string getKey()
         {
