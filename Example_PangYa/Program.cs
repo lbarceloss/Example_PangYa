@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows.Input;
 
@@ -38,7 +39,12 @@ namespace Example_PangYa
                 TC.SetApartmentState(ApartmentState.STA);
                 TC.Start();
                 TC.Suspend();
-                Console.WriteLine("PangYa aberto");
+                Process[] processos = Process.GetProcessesByName("ProjectG");
+                foreach (Process p in processos)
+                {
+                    Console.WriteLine(p.MainWindowTitle);
+                }
+                Console.WriteLine("");
                 do
                 {
                     Console.WriteLine("Escolha a opção: ");
