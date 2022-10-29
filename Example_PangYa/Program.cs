@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Windows.Input;
+using System.Management;
+using System.IO;
+using System.Collections;
+using Example_PangYa.Classes;
 
 /*
  * Referencias: https://github.com/erfg12/memory.dll
@@ -14,6 +18,7 @@ namespace Example_PangYa
 {
     internal class Program
     {
+        static ArrayList hardDriveDetails = new ArrayList();
         static Funcoes f = new Funcoes();
         static Mem m = new Mem();
         static double tee1Mem, tee2Mem, tee3Mem, pin1Mem, pin2Mem, pin3Mem, eixoxMem, eixoyMem, cosBolaMem, senoBolaMem, spinMem, curvaMem, gridPersonagemMem, cosAnguloMem, senoAnguloMem;
@@ -32,6 +37,7 @@ namespace Example_PangYa
 
         static void Main(string[] args)
         {
+
             Console.WriteLine("Key win: " + getKey());
             Aberto = m.OpenProcess("ProjectG");
             if (Aberto)
@@ -43,7 +49,9 @@ namespace Example_PangYa
                 foreach (Process p in processos)
                 {
                     Console.WriteLine(p.MainWindowTitle);
+                    Console.WriteLine("ID: " + p.Id);
                 }
+                getHWID("SELECT * FROM Win32_DiskDrive", "SELECT * FROM Win32_Processor", "SELECT * FROM Win32_BIOS", "SELECT * FROM Win32_VideoController");
                 Console.WriteLine("");
                 do
                 {
@@ -140,6 +148,9 @@ namespace Example_PangYa
                 Main(args);
             }
         }
+
+
+
         private static void Teclado()
         {
             while (Rodando)
@@ -352,8 +363,76 @@ namespace Example_PangYa
                         throw new IndexOutOfRangeException(String.Format("Index not found: {^0}", text2));
                     }
                     return value.ToString();
-                    
+
                 }
+            }
+        }
+
+        private static void getHWID(string rootHDD, string rootProcessador, string rootBIOS, string rootGPU)
+        {
+            // HD
+            ManagementObjectSearcher moSearcher = new ManagementObjectSearcher(rootHDD);
+            foreach (ManagementObject wmi_HD in moSearcher.Get())
+            {
+                HardDrive hd = new HardDrive(); 
+                hd.Model = wmi_HD["Model"].ToString(); 
+                hd.Type = wmi_HD["InterfaceType"].ToString();
+                hd.SerialNo = wmi_HD["SerialNumber"].ToString();
+                hardDriveDetails.Add(hd);
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("\n##########- HDD -##########");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Modelo: " + hd.Model);
+                Console.WriteLine("Tipo: " + hd.Type);
+                Console.WriteLine("N. Serie: " + hd.SerialNo);
+                break;
+            }
+            // PROCESSADOR
+            ManagementObjectSearcher moSearcher2 = new ManagementObjectSearcher(rootProcessador);
+            foreach (ManagementObject wmi_Processor in moSearcher2.Get())
+            {
+                CPU cpu = new CPU();
+                cpu.ID = wmi_Processor["ProcessorId"].ToString();
+                cpu.Name = wmi_Processor["Name"].ToString();
+                hardDriveDetails.Add(cpu);
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("\n##########- CPU -##########");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Modelo: " + cpu.ID);
+                Console.WriteLine("Nome: " + cpu.Name);
+                break;
+            }
+            // BIOS
+            ManagementObjectSearcher moSearcher3 = new ManagementObjectSearcher(rootBIOS);
+            foreach (ManagementObject wmi_BIOS in moSearcher3.Get())
+            {
+                Bios bios = new Bios();
+                bios.Version = wmi_BIOS["Version"].ToString();
+                hardDriveDetails.Add(bios);
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("\n##########- BIOS -##########");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Versao: " + bios.Version);
+                break;
+            }
+            // GPU
+            ManagementObjectSearcher moSearcher4 = new ManagementObjectSearcher(rootGPU);
+            foreach (ManagementObject wmi_GPU in moSearcher4.Get())
+            {
+                GPU gpu = new GPU();
+                gpu.Name = wmi_GPU["Name"].ToString();
+                gpu.Version = wmi_GPU["DriverVersion"].ToString();
+                hardDriveDetails.Add(gpu);
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("\n##########- GPU -##########");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Nome: " + gpu.Name);
+                Console.WriteLine("Versao: " + gpu.Version);
+                break;
             }
         }
     }
