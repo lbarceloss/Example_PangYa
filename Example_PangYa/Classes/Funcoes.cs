@@ -61,11 +61,6 @@ namespace Example_PangYa
             return Math.Round(Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2)) * 0.312495, 2);
         }
 
-        public double AutoPower(double x1, double x2, double y1, double y2)
-        {
-            return Math.Round(Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2)) * 0.312495, 0);
-        }
-
         public double Altura(double x1, double x2)
         {
             return Math.Round((x2 - x1 + 0.14) * (0.312495 * 0.914), 1);
@@ -80,15 +75,15 @@ namespace Example_PangYa
         public string Driver(int driverMem, double linhaXMem, double tee1Mem, double linhaZMem, double tee3Mem)
         {
             if (driverMem >= 0 && driverMem <= 2)
-                return Convert.ToString(AutoPower(linhaXMem, tee1Mem, linhaZMem, tee3Mem) + "y/" + (driverMem + 1) + "w");
+                return Convert.ToString(Distancia(linhaXMem, tee1Mem, linhaZMem, tee3Mem) + "y/" + (driverMem + 1) + "w");
             else if (driverMem > 2 && driverMem <= 10)
-                return Convert.ToString(AutoPower(linhaXMem, tee1Mem, linhaZMem, tee3Mem)) + "y/" + ((driverMem - 2) + 1) + "l";
+                return Convert.ToString(Distancia(linhaXMem, tee1Mem, linhaZMem, tee3Mem)) + "y/" + ((driverMem - 2) + 1) + "l";
             else if (driverMem == 11)
-                return Convert.ToString(AutoPower(linhaXMem, tee1Mem, linhaZMem, tee3Mem)) + "y/" + "PW";
+                return Convert.ToString(Distancia(linhaXMem, tee1Mem, linhaZMem, tee3Mem)) + "y/" + "PW";
             else if (driverMem == 12)
-                return Convert.ToString(AutoPower(linhaXMem, tee1Mem, linhaZMem, tee3Mem)) + "y/" + "SW";
+                return Convert.ToString(Distancia(linhaXMem, tee1Mem, linhaZMem, tee3Mem)) + "y/" + "SW";
             else
-                return Convert.ToString(AutoPower(linhaXMem, tee1Mem, linhaZMem, tee3Mem)) + "y/" + "PT";
+                return Convert.ToString(Distancia(linhaXMem, tee1Mem, linhaZMem, tee3Mem)) + "y/" + "PT";
         }
 
         public double RadiansParaDegrees(double radians)

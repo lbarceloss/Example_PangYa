@@ -51,7 +51,7 @@ namespace Example_PangYa
                     Console.WriteLine(p.MainWindowTitle);
                     Console.WriteLine("ID: " + p.Id);
                 }
-                getHWID("SELECT * FROM Win32_DiskDrive", "SELECT * FROM Win32_Processor", "SELECT * FROM Win32_BIOS", "SELECT * FROM Win32_VideoController");
+                getHWID("SELECT * FROM Win32_DiskDrive", "SELECT * FROM Win32_Processor", "SELECT * FROM Win32_BIOS", "SELECT * FROM Win32_VideoController", "SELECT * FROM Win32_BaseBoard");
                 Console.WriteLine("");
                 do
                 {
@@ -148,9 +148,6 @@ namespace Example_PangYa
                 Main(args);
             }
         }
-
-
-
         private static void Teclado()
         {
             while (Rodando)
@@ -367,8 +364,7 @@ namespace Example_PangYa
                 }
             }
         }
-
-        private static void getHWID(string rootHDD, string rootProcessador, string rootBIOS, string rootGPU)
+        private static void getHWID(string rootHDD, string rootProcessador, string rootBIOS, string rootGPU, string rootMOBA)
         {
             // HD
             ManagementObjectSearcher moSearcher = new ManagementObjectSearcher(rootHDD);
@@ -378,7 +374,6 @@ namespace Example_PangYa
                 hd.Model = wmi_HD["Model"].ToString(); 
                 hd.Type = wmi_HD["InterfaceType"].ToString();
                 hd.SerialNo = wmi_HD["SerialNumber"].ToString();
-                hardDriveDetails.Add(hd);
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n##########- HDD -##########");
@@ -386,7 +381,6 @@ namespace Example_PangYa
                 Console.WriteLine("Modelo: " + hd.Model);
                 Console.WriteLine("Tipo: " + hd.Type);
                 Console.WriteLine("N. Serie: " + hd.SerialNo);
-                break;
             }
             // PROCESSADOR
             ManagementObjectSearcher moSearcher2 = new ManagementObjectSearcher(rootProcessador);
@@ -395,7 +389,6 @@ namespace Example_PangYa
                 CPU cpu = new CPU();
                 cpu.ID = wmi_Processor["ProcessorId"].ToString();
                 cpu.Name = wmi_Processor["Name"].ToString();
-                hardDriveDetails.Add(cpu);
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n##########- CPU -##########");
@@ -410,7 +403,6 @@ namespace Example_PangYa
             {
                 Bios bios = new Bios();
                 bios.Version = wmi_BIOS["Version"].ToString();
-                hardDriveDetails.Add(bios);
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n##########- BIOS -##########");
@@ -425,13 +417,29 @@ namespace Example_PangYa
                 GPU gpu = new GPU();
                 gpu.Name = wmi_GPU["Name"].ToString();
                 gpu.Version = wmi_GPU["DriverVersion"].ToString();
-                hardDriveDetails.Add(gpu);
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n##########- GPU -##########");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Nome: " + gpu.Name);
                 Console.WriteLine("Versao: " + gpu.Version);
+                break;
+            }
+            // MOBA
+            ManagementObjectSearcher moSearcher5 = new ManagementObjectSearcher(rootMOBA);
+            foreach (ManagementObject wmi_MOBA in moSearcher5.Get())
+            {
+                MOBA moba = new MOBA();
+                moba.Name = wmi_MOBA["Name"].ToString();
+                moba.SerialNo = wmi_MOBA["SerialNumber"].ToString();
+                moba.Marca = wmi_MOBA["Manufacturer"].ToString();
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("\n##########- MOBA -##########");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Nome: " + moba.Name);
+                Console.WriteLine("N. Serie: " + moba.SerialNo);
+                Console.WriteLine("Marca: " + moba.Marca);
                 break;
             }
         }
