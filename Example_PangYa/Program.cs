@@ -1,14 +1,13 @@
-﻿using Memory;
+﻿using Example_PangYa.Classes;
+using Memory;
 using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Management;
 using System.Threading;
 using System.Windows.Input;
-using System.Management;
-using System.IO;
-using System.Collections;
-using Example_PangYa.Classes;
 
 /*
  * Referencias: https://github.com/erfg12/memory.dll
@@ -37,7 +36,9 @@ namespace Example_PangYa
 
         static void Main(string[] args)
         {
-
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("\n##########- WIN/GAME -##########");
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Key win: " + getKey());
             Aberto = m.OpenProcess("ProjectG");
             if (Aberto)
@@ -370,8 +371,8 @@ namespace Example_PangYa
             ManagementObjectSearcher moSearcher = new ManagementObjectSearcher(rootHDD);
             foreach (ManagementObject wmi_HD in moSearcher.Get())
             {
-                HardDrive hd = new HardDrive(); 
-                hd.Model = wmi_HD["Model"].ToString(); 
+                HardDrive hd = new HardDrive();
+                hd.Model = wmi_HD["Model"].ToString();
                 hd.Type = wmi_HD["InterfaceType"].ToString();
                 hd.SerialNo = wmi_HD["SerialNumber"].ToString();
 
@@ -442,6 +443,48 @@ namespace Example_PangYa
                 Console.WriteLine("Marca: " + moba.Marca);
                 break;
             }
+        }
+        private void BypassMem()
+        {
+            /*
+            leonardo.write(0xE73E60, "C9 00 60 00 00 80 80");
+
+            leonardo.write(this.gg_window_check, "EB");
+
+            leonardo.write(this.gg_false, "A1 54");
+            leonardo.write(this.gg_detected, "A1 3C");
+            leonardo.write(this.gg_init, "C9 25 60 00 00 80 80"); 
+            leonardo.write(this.gg_exception, "C9 9B 60 00 00 80 80");
+
+           vector[] <string> processes{ "GameMon.des", "GameMon64.des" };
+
+            for (string & i : processes)
+            {
+                if (kill_process_by_name(i.c_str()))
+                {
+                    https://docs.microsoft.com/en-us/sysinternals/downloads/pskill
+                    system(cmd.c_str());
+                }
+            }
+            */
+        }
+        private void BypassTotalEmulate()
+        {
+            /*
+            Emulate emu = new Emulate();
+            emu.Execute();
+            emu.RecursiveLeonardo();
+            emu.Kill();
+            */
+        }
+        private void BypassTHTotalEmulated()
+        {
+            /*
+            Emulate emuTH = new Emulate();
+            emuTH.Execute();
+            emuTH.RecursiveLeonardo();
+            emuTH.Kill();
+            */
         }
     }
 }
