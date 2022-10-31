@@ -477,7 +477,7 @@ namespace Example_PangYa
             emu.Kill();
             */
         }
-        private void BypassTHTotalEmulated()
+        private void BypassTHTotalEmulate()
         {
             /*
             Emulate emuTH = new Emulate();
